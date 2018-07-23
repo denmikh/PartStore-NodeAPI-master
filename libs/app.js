@@ -12,7 +12,7 @@ var oauth2 = require('./auth/oauth2');
 
 var api = require('./routes/api');
 var users = require('./routes/users');
-var articles = require('./routes/articles');
+var parts = require('./routes/parts');
 
 var app = express();
 
@@ -20,10 +20,30 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
 
+app.use(function (req, res, next) {
+
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // Pass to next layer of middleware
+    next();
+});
+
+
 app.use('/', api);
 app.use('/api', api);
 app.use('/api/users', users);
-app.use('/api/articles', articles);
+app.use('/api/parts', parts);
 app.use('/api/oauth/token', oauth2.token);
 
 // Catch 404 and forward to error handler
@@ -45,5 +65,6 @@ app.use(function (err, req, res, next) {
     });
     return;
 });
+
 
 module.exports = app;

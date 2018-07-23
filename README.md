@@ -85,20 +85,20 @@ http POST http://localhost:1337/api/oauth/token grant_type=refresh_token client_
 Create your article data:
 
 ```sh
-http POST http://localhost:1337/api/articles title='New Article' author='John Doe' description='Lorem ipsum dolar sit amet' images:='[{"kind":"thumbnail", "url":"http://habrahabr.ru/images/write-topic.png"}, {"kind":"detail", "url":"http://habrahabr.ru/images/write-topic.png"}]' Authorization:'Bearer ACCESS_TOKEN'
+http POST http://localhost:1337/api/parts title='New Article' author='John Doe' description='Lorem ipsum dolar sit amet' images:='[{"kind":"thumbnail", "url":"http://habrahabr.ru/images/write-topic.png"}, {"kind":"detail", "url":"http://habrahabr.ru/images/write-topic.png"}]' Authorization:'Bearer ACCESS_TOKEN'
 ```
 
 Update your article data:
 
 ```sh
-http PUT http://localhost:1337/api/articles/EXISTING_ARTICLE_ID title='Updated Article' author='Jane Doe' description='This is now updated' Authorization:'Bearer ACCESS_TOKEN'
+http PUT http://localhost:1337/api/parts/EXISTING_ARTICLE_ID title='Updated Article' author='Jane Doe' description='This is now updated' Authorization:'Bearer ACCESS_TOKEN'
 ```
 
 Get your data:
 
 ```sh
 http http://localhost:1337/api/users/info Authorization:'Bearer ACCESS_TOKEN'
-http http://localhost:1337/api/articles Authorization:'Bearer ACCESS_TOKEN'
+http http://localhost:1337/api/parts Authorization:'Bearer ACCESS_TOKEN'
 ```
 
 ## Tests

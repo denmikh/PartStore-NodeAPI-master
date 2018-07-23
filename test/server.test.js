@@ -16,14 +16,14 @@ var clientCredentials = {
 var accessToken;
 var refreshToken;
 
-var articleExample = {
-    title: 'New Article', author: 'John Doe', description: 'Lorem ipsum dolar sit amet', images: [
+var partExample = {
+    title: 'New part', author: 'John Doe', description: 'Lorem ipsum dolar sit amet', images: [
         { kind: 'thumbnail', url: 'http://habrahabr.ru/images/write-topic.png' },
         { kind: 'detail', url: 'http://habrahabr.ru/images/write-topic.png' }
     ]
 };
-var articleUpdated = { title: 'Updated Article', author: 'Jane Doe', description: 'This is now updated' };
-var articleId;
+var partUpdated = { title: 'Updated part', author: 'Jane Doe', description: 'This is now updated' };
+var partId;
 
 function getTokensFromBody(body) {
     if (!('access_token' in body) || !('refresh_token' in body)) {
@@ -80,64 +80,64 @@ test('Authorized request', function (t) {
         });
 });
 
-test('Create article', function (t) {
+test('Create part', function (t) {
     request
-        .post(baseUrl + '/articles')
-        .send(articleExample)
+        .post(baseUrl + '/parts')
+        .send(partExample)
         .set('Authorization', 'Bearer ' + accessToken)
         .end(function (err, res) {
             t.equal(res.status, 200, 'response status shoud be 200');
-            if ('article' in res.body) {
-                t.equal(res.body['article']['title'], articleExample['title'], 'created article title shoud be correct');
-                articleId = res.body['article']['_id'];
+            if ('part' in res.body) {
+                t.equal(res.body['part']['title'], partsExample['title'], 'created part title shoud be correct');
+                partsId = res.body['part']['_id'];
             }
             t.end();
         });
 });
 
-test('Check created article', function (t) {
+test('Check created part', function (t) {
     request
-        .get(baseUrl + '/articles/' + articleId)
+        .get(baseUrl + '/parts/' + partsId)
         .set('Authorization', 'Bearer ' + accessToken)
         .end(function (err, res) {
             t.equal(res.status, 200, 'response status shoud be 200');
-            if ('article' in res.body) {
-                t.equal(res.body['article']['title'], articleExample['title'], 'created article title shoud be correct');
-                t.equal(res.body['article']['images'].length, articleExample['images'].length, 'created article images count shoud be correct');
+            if ('part' in res.body) {
+                t.equal(res.body['part']['title'], partsExample['title'], 'created part title shoud be correct');
+                t.equal(res.body['part']['images'].length, partsExample['images'].length, 'created part images count shoud be correct');
             }
             t.end();
         });
 });
 
-test('Update article', function (t) {
+test('Update part', function (t) {
     request
-        .put(baseUrl + '/articles/' + articleId)
+        .put(baseUrl + '/parts/' + partsId)
         .set('Authorization', 'Bearer ' + accessToken)
-        .send(articleUpdated)
+        .send(partUpdated)
         .end(function (err, res) {
             t.equal(res.status, 200, 'response status shoud be 200');
-            if ('article' in res.body) {
-                t.equal(res.body['article']['title'], articleUpdated['title'], 'updated article title shoud be correct');
+            if ('part' in res.body) {
+                t.equal(res.body['part']['title'], partsUpdated['title'], 'updated parts title shoud be correct');
             }
             t.end();
         });
 });
 
-test('Test articles list', function (t) {
+test('Test parts list', function (t) {
     request
-        .get(baseUrl + '/articles')
+        .get(baseUrl + '/parts')
         .set('Authorization', 'Bearer ' + accessToken)
         .end(function (err, res) {
             t.equal(res.status, 200, 'response status shoud be 200');
-            var articleFound = false;
+            var partFound = false;
             for (var i = 0; i < res.body.length; i++) {
-                var article = res.body[i];
-                if (article['_id'] === articleId) {
-                    articleFound = true;
-                    t.equal(article['title'], articleUpdated['title'], 'updated article title shoud be correct');
+                var part = res.body[i];
+                if (part['_id'] === partId) {
+                    partFound = true;
+                    t.equal(part['title'], partUpdated['title'], 'updated part title shoud be correct');
                 }
             }
-            t.true(articleFound, 'created/updated article shoud be in a list');
+            t.true(partFound, 'created/updated part shoud be in a list');
             t.end();
         });
 });
