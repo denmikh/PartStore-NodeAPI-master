@@ -23,7 +23,7 @@ app.use(passport.initialize());
 app.use(function (req, res, next) {
 
     // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', '54.159.156.31:1337/api/parts');
+    res.setHeader('Access-Control-Allow-Origin', 'http://stark-cliffs-38108.herokuapp.com/');
 
     // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
