@@ -4,7 +4,7 @@
         "tokenLife" : 3600
     },
     "mongoose": {
-        "uri": "mongodb://54.210.190.194/apiDB"
+        "uri": "mongodb://54.159.156.31/apiDB"
     },
     "default": {
         "user": {
