@@ -10,22 +10,22 @@
         "generate": "node ./generateData.js"
     },
     "dependencies": {
-        "body-parser": "^1.18.x",
+        "body-parser": "^1.18.3",
         "cors": "^2.8.4",
-        "express": "^4.16.x",
+        "express": "^4.16.3",
         "faker": "^4.1.x",
-        "mongoose": "^5.0.x",
+        "mongoose": "^5.2.10",
         "nconf": "^0.10.x",
         "oauth2orize": "^1.11.x",
         "passport": "^0.4.x",
         "passport-http": "^0.3.x",
         "passport-http-bearer": "^1.0.x",
         "passport-oauth2-client-password": "^0.1.x",
-        "winston": "^2.4.x"
+        "winston": "^2.4.4"
     },
     "devDependencies": {
-        "superagent": "^3.8.x",
-        "tape": "^4.9.x"
+        "superagent": "^3.8.3",
+        "tape": "^4.9.1"
     },
     "jshintConfig": {
         "curly": true,

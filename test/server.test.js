@@ -3,7 +3,7 @@ var config = require(libs + 'config');
 
 var test = require('tape');
 var request = require('superagent');
-var baseUrl = 'http://:1337/api';
+var baseUrl = 'http://localhost:1337/api';
 
 var userCredentials = {
     username: config.get('default:user:username'),
