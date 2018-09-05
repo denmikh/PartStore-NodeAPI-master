@@ -1,48 +1,46 @@
-var mongoose = require('mongoose'),
-    crypto = require('crypto'),
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+var bcrypt = require('bcrypt-nodejs');
 
-    Schema = mongoose.Schema,
+var UserSchema = new Schema({
+  username: {
+        type: String,
+        unique: true,
+        required: true
+    },
+  password: {
+        type: String,
+        required: true
+    }
+});
 
-    User = new Schema({
-        username: {
-            type: String,
-            unique: true,
-            required: true
-        },
-        hashedPassword: {
-            type: String,
-            required: true
-        },
-        salt: {
-            type: String,
-            required: true
-        },
-        created: {
-            type: Date,
-            default: Date.now
+UserSchema.pre('save', function (next) {
+    var user = this;
+    if (this.isModified('password') || this.isNew) {
+        bcrypt.genSalt(10, function (err, salt) {
+            if (err) {
+                return next(err);
+            }
+            bcrypt.hash(user.password, salt, null, function (err, hash) {
+                if (err) {
+                    return next(err);
+                }
+                user.password = hash;
+                next();
+            });
+        });
+    } else {
+        return next();
+    }
+});
+
+UserSchema.methods.comparePassword = function (passw, cb) {
+    bcrypt.compare(passw, this.password, function (err, isMatch) {
+        if (err) {
+            return cb(err);
         }
+        cb(null, isMatch);
     });
-
-User.methods.encryptPassword = function (password) {
-    return crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
 };
 
-User.virtual('userId')
-    .get(function () {
-        return this.id;
-    });
-
-User.virtual('password')
-    .set(function (password) {
-        this._plainPassword = password;
-        this.salt = crypto.randomBytes(128).toString('hex');
-        this.hashedPassword = this.encryptPassword(password);
-    })
-    .get(function () { return this._plainPassword; });
-
-
-User.methods.checkPassword = function (password) {
-    return this.encryptPassword(password) === this.hashedPassword;
-};
-
-module.exports = mongoose.model('User', User);
+module.exports = mongoose.model('User', UserSchema);

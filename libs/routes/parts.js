@@ -27,43 +27,49 @@ router.get('/', function (req, res) {
 });
 
 // Create parts
-router.post('/', function (req, res) {
-    console.log('req.body: ', req.body)
-    var part = new Part({
-        name: req.body.name,
-        origArticle: req.body.origArticle,
-        description: req.body.description,
-        fullDescription: req.body.fullDescription,
-        applicability: req.body.applicability,
-        price: req.body.price,
-        image: req.body.image
-    });
-    console.log('part: ', part)
-    part.save(function (err) {
-        if (!err) {
-            log.info('New part created with id: %s', part.id);
-            return res.json({
-                status: 'OK',
-                part: part
-            });
-        } else {
-            if (err.name === 'ValidationError') {
-                res.statusCode = 400;
-                res.json({
-                    error: 'Validation error'
+router.post('/', passport.authenticate('jwt', { session: false}), function(req, res) {
+    var token = getToken(req.headers);
+    if(token) {
+        console.log('req.body: ', req.body)
+        var part = new Part({
+            name: req.body.name,
+            origArticle: req.body.origArticle,
+            description: req.body.description,
+            fullDescription: req.body.fullDescription,
+            applicability: req.body.applicability,
+            price: req.body.price,
+            image: req.body.image
+        });
+
+        console.log('part: ', part)
+        part.save(function (err) {
+            if (!err) {
+                log.info('New part created with id: %s', part.id);
+                return res.json({
+                    status: 'OK',
+                    part: part
                 });
             } else {
-                res.statusCode = 500;
-
-                log.error('Internal error(%d): %s', res.statusCode, err.message);
-
-                res.json({
-                    error: 'Server error'
-                });
+                if (err.name === 'ValidationError') {
+                    res.statusCode = 400;
+                    res.json({
+                        error: 'Validation error'
+                    });
+                } else {
+                    res.statusCode = 500;
+    
+                    log.error('Internal error(%d): %s', res.statusCode, err.message);
+    
+                    res.json({
+                        error: 'Server error'
+                    });
+                }
             }
-        }
-    });
+        });
+    }
 });
+
+
 
 // Get parts
 router.get('/:id', function (req, res) {
