@@ -1,4 +1,4 @@
 module.exports = {
     'secret':'nodeauthsecret',
-    'database': 'mongodb://54.205.186.25/node-auth'
+    'database': 'mongodb://denmikh:samtron71s@ds251332.mlab.com:51332/mongodb_partstore'
   };

@@ -4,12 +4,12 @@
         "tokenLife" : 3600
     },
     "mongoose": {
-        "uri": "mongodb://54.205.186.25/apiDB"
+        "uri": "mongodb://denmikh:samtron71s@ds251332.mlab.com:51332/mongodb_partstore"
     },
     "default": {
         "user": {
-            "username": "myapi",
-            "password": "abc1234"
+            "username": "denmikh",
+            "password": "samtron71s"
         },
         "client": {
             "name": "Android API v1",

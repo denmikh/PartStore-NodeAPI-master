@@ -15,7 +15,7 @@ var config = require('./config/database');
 
 mongoose.connect(config.database);
 
-var api = require('./routes/api');
+var auth = require('./routes/auth');
 
 app.use(passport.initialize());
 
@@ -45,8 +45,8 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.use('/', api);
-app.use('/api', api);
+app.use('/api', auth);
+app.use('/api/auth', auth);
 
 app.use('/api/parts', parts);
 
