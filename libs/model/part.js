@@ -13,7 +13,7 @@ var Part = new Schema({
 });
 
 Part.path('name').validate(function (v) {
-    return v.length > 5 && v.length < 70;
+    return v.length > 2 && v.length < 70;
 });
 
 module.exports = mongoose.model('Part', Part);
