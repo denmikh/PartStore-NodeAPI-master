@@ -13,6 +13,8 @@ router.post('/signup', function(req, res) {
   } else {
     var newUser = new User({
       username: req.body.username,
+      tel: req.body.tel,
+      city: req.body.city,
       password: req.body.password
     });
     // save the user
